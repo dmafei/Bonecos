@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Coleção de Bonecos</string>
+
+    <!--string para items de acoes-->
+    <string name="remover_menu">Remover</string>
+    <string name="salvar_menu">Salvar</string>
+
+    <!--string para nomes dos campos nas Activies-->
+    <string name="nome_Marca">Marca</string>
+
+    <!--string para hints dos campos as Activies-->
+    <string name="hint_Marcas">Marcas</string>
+    <string name="hint_Filmes">Filme</string>
+    <string name="hint_Nome">Nome</string>
+    <string name="hint_Modelo">Modelo</string>
+
+    <!--Combobox para listagem das marcas-->
+    <string-array name="listarMarca">
+        <item>Marvel</item>
+        <item>DC</item>
+        <item>Max Steel</item>
+        <item>Star Wars</item>
+        <item>Outros</item>
+    </string-array>
+
+</resources>
