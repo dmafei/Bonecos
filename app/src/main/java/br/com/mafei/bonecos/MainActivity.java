@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void configurarAdapter(RecyclerView listaColecao) {
 
-        //new buscarBonecosTask(bonecosDAO, adapter).execute();
-
         adapter = new lista_adapter_recycler(this,bonecosDAO.todos());
         listaColecao.setAdapter(adapter);
 
@@ -100,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void atualizarBonecos() {
-        //new buscarBonecosTask(bonecosDAO, adapter).execute();
         adapter.atualizar(bonecosDAO.todos());
     }
 }
