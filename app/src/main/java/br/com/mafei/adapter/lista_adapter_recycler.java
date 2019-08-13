@@ -33,7 +33,7 @@ public class lista_adapter_recycler extends RecyclerView.Adapter<lista_adapter_r
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener){
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
@@ -77,15 +77,15 @@ public class lista_adapter_recycler extends RecyclerView.Adapter<lista_adapter_r
             nomeMarca = itemView.findViewById(R.id.item_Boneco_Marca);
             nomeFilme = itemView.findViewById(R.id.item_Boneco_Filme);
 
-            itemView.setOnClickListener((View v) -> onItemClickListener.onItemClick(bonecos, getAdapterPosition()));
+            itemView.setOnClickListener((View v) -> onItemClickListener.onItemClick(bonecos));
 
             itemView.setOnLongClickListener((View v) -> {
-                onItemLongClickListener.onItemLongClick(bonecos, getAdapterPosition());
-                return false;
+                onItemLongClickListener.onItemLongClick(bonecos);
+                return true;
             });
         }
 
-        void vincular(Bonecos bonecosvincular){
+        void vincular(Bonecos bonecosvincular) {
             this.bonecos = bonecosvincular;
 
             nomeBoneco.setText(bonecosvincular.getNomeBoneco());

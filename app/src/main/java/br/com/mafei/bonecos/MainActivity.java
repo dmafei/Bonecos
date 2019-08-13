@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -59,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
         listaColecao.setAdapter(adapter);
 
         // Click rapido para alterar
-        adapter.setOnItemClickListener((bonecos, posicao) -> alterarBonecos(bonecos));
+        adapter.setOnItemClickListener((bonecos) -> alterarBonecos(bonecos));
 
         // Click longo para excluir
-        adapter.setOnItemLongClickListener((bonecos, posicao) -> removerBonecos(bonecos));
+        adapter.setOnItemLongClickListener((bonecos) -> removerBonecos(bonecos));
 
     }
 

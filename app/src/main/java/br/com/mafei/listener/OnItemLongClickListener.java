@@ -4,5 +4,5 @@ import br.com.mafei.modelo.Bonecos;
 
 public interface OnItemLongClickListener {
 
-    void onItemLongClick(Bonecos bonecos, int posicao);
+    void onItemLongClick(Bonecos bonecos);
 }
