@@ -15,7 +15,7 @@ public class Bonecos implements Serializable {
     private String nomeMarca;
     private String nomeModelo;
     private String nomeFilme;
-
+    private String chave;
 
     public Bonecos (){
 
@@ -65,5 +65,13 @@ public class Bonecos implements Serializable {
 
     public void setNomeFilme(String nomeFilme) {
         this.nomeFilme = nomeFilme;
+    }
+
+    public String getChave() {
+        return chave;
+    }
+
+    public void setChave(String chave) {
+        this.chave = chave;
     }
 }
