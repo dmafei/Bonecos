@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "451164778780",
+    "firebase_url": "https://mafeisistemas-164701.firebaseio.com",
+    "project_id": "mafeisistemas-164701",
+    "storage_bucket": "mafeisistemas-164701.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451164778780:android:ab2ef7db0cc990bf",
+        "android_client_info": {
+          "package_name": "br.com.mafei.bonecos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "451164778780-e2g097d6pvs3ntspohphdfkmco953m74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnyvLuJWMGrtlusRe1bUYTU6LB3AC181A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "451164778780-e2g097d6pvs3ntspohphdfkmco953m74.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
