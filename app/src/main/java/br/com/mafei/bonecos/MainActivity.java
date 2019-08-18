@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import br.com.mafei.adapter.lista_adapter_recycler;
 import br.com.mafei.dao.Room_BonecosDAO;
 import br.com.mafei.database.BonecosDatabase;
+import br.com.mafei.firebase.PersistenciaFirebase;
 import br.com.mafei.modelo.Bonecos;
 
 import static br.com.mafei.constantes.constantes.chaveAcao;
@@ -24,6 +25,7 @@ import static br.com.mafei.constantes.constantes.tituloBar;
 public class MainActivity extends AppCompatActivity {
 
     private Room_BonecosDAO bonecosDAO;
+    private PersistenciaFirebase firebase;
     private lista_adapter_recycler adapter;
 
     // Classe para unica execucao precisa extender Application
@@ -39,9 +41,12 @@ public class MainActivity extends AppCompatActivity {
         botaoInserir(botaoInserir);
     }
 
+
     private void configurarDatabase() {
         BonecosDatabase database = BonecosDatabase.getInstance(this);
         bonecosDAO = database.getRoomBonecosDAO();
+
+        firebase = new PersistenciaFirebase();
     }
 
     private void mostrarLista() {
@@ -52,11 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void configurarAdapter(RecyclerView listaColecao) {
 
-        adapter = new lista_adapter_recycler(this,bonecosDAO.todos());
+        adapter = new lista_adapter_recycler(this, bonecosDAO.todos());
         listaColecao.setAdapter(adapter);
 
         // Click rapido para alterar
-        adapter.setOnItemClickListener((bonecos) -> alterarBonecos(bonecos));
+        adapter.setOnItemClickListener((bonecos) -> {
+            alterarBonecos(bonecos);
+        });
 
         // Click longo para excluir
         adapter.setOnItemLongClickListener((bonecos) -> removerBonecos(bonecos));
@@ -69,11 +76,16 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("Remover Boneco")
                 .setMessage("Deseja remover este boneco?")
                 .setPositiveButton("Sim", (dialog, which) -> {
-                    bonecosDAO.remover(bonecosRemover);
-                    atualizarBonecos();
+                    remover(bonecosRemover);
                 })
                 .setNegativeButton("Não", null)
                 .show();
+    }
+
+    public void remover(Bonecos bonecos) {
+        bonecosDAO.remover(bonecos);
+        firebase.excluirBonecosFirebase(bonecos);
+        atualizarBonecos();
     }
 
     private void alterarBonecos(Bonecos bonecosEditar) {

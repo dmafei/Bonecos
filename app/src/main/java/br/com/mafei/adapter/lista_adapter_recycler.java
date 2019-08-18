@@ -77,7 +77,9 @@ public class lista_adapter_recycler extends RecyclerView.Adapter<lista_adapter_r
             nomeMarca = itemView.findViewById(R.id.item_Boneco_Marca);
             nomeFilme = itemView.findViewById(R.id.item_Boneco_Filme);
 
-            itemView.setOnClickListener((View v) -> onItemClickListener.onItemClick(bonecos));
+            itemView.setOnClickListener((View v) -> {
+                onItemClickListener.onItemClick(bonecos);
+            });
 
             itemView.setOnLongClickListener((View v) -> {
                 onItemLongClickListener.onItemLongClick(bonecos);

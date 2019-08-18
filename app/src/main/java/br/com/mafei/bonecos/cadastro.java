@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,7 @@ import java.util.Objects;
 
 import br.com.mafei.dao.Room_BonecosDAO;
 import br.com.mafei.database.BonecosDatabase;
+import br.com.mafei.firebase.PersistenciaFirebase;
 import br.com.mafei.modelo.Bonecos;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -32,7 +34,9 @@ public class cadastro extends AppCompatActivity {
 
     private static final int TIRA_FOTO = 0;
     private Room_BonecosDAO bonecosDAO;
+    private PersistenciaFirebase firebase;
     private Bonecos bonecos;
+
     private String acao;
 
     // campos da tabela
@@ -47,8 +51,11 @@ public class cadastro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
+        // sqlite
         BonecosDatabase database = BonecosDatabase.getInstance(this);
         bonecosDAO = database.getRoomBonecosDAO();
+
+         firebase = new PersistenciaFirebase();
 
         atribuiComponentes();
         extrairParametrosIntent();
@@ -110,23 +117,37 @@ public class cadastro extends AppCompatActivity {
         if (camposObrigatorio()) {
             preencherBonecos();
             if (acao.equals(cst_editar)) {
-                bonecosDAO.alterar(bonecos);
+                alterarBonecos(bonecos);
 
             } else if (acao.equals(cst_inserir)) {
-                bonecosDAO.salvar(bonecos);
+                salvarBonecos(bonecos);
             }
             finish();
         }
         txtNome.setFocusable(true);
     }
 
+    private void salvarBonecos(Bonecos bonecos) {
+        // primeiro persistir no Firebase para obter a chave
+        String chave = firebase.salvarBonecosFirebase(bonecos);
+        bonecos.setChave(chave); // atribuindo a chave para persistir no room
+        bonecosDAO.salvar(bonecos);
+    }
+
+    private void alterarBonecos(Bonecos bonecos) {
+        bonecosDAO.alterar(bonecos);
+        firebase.alterarFirebase(bonecos);
+    }
+
     private boolean camposObrigatorio() {
 
-        if (txtNome.getText().toString().isEmpty()) {
+        if ((txtNome.getText().toString().isEmpty()) || (txtFilme.getText().toString().isEmpty()) || (txtModelo.getText().toString().isEmpty()))
+        {
             Toast.makeText(cadastro.this, "Campo Obrigatório", Toast.LENGTH_SHORT).show();
             return false;
 
-        } else {
+        }
+        else {
             return true;
         }
 
