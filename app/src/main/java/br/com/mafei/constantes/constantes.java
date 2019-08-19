@@ -16,6 +16,6 @@ public interface constantes {
     String cst_editar = "E";
 
     //tabelas
-    String TABELA_BONECOS = "bonecos.db";
-
+    String TABELA_BONECOS = "baseBonecos.db";
+    String TABELA_FIREBASE = "baseBonecos";
 }

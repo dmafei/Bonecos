@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         botaoInserir(botaoInserir);
     }
 
-
     private void configurarDatabase() {
         BonecosDatabase database = BonecosDatabase.getInstance(this);
         bonecosDAO = database.getRoomBonecosDAO();
