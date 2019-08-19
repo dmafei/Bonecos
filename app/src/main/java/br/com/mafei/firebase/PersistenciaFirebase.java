@@ -8,6 +8,8 @@ import java.util.Map;
 
 import br.com.mafei.modelo.Bonecos;
 
+import static br.com.mafei.constantes.constantes.TABELA_FIREBASE;
+
 public class PersistenciaFirebase {
 
     private DatabaseReference dbBonecos;
@@ -16,7 +18,7 @@ public class PersistenciaFirebase {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
-        DatabaseReference usersRef = ref.child("baseBonecos");
+        DatabaseReference usersRef = ref.child(TABELA_FIREBASE);
         String vChave = bonecosEditar.getChave();
         DatabaseReference hopperRef = usersRef.child(vChave);
         Map<String , Object> hopperUpdates = new HashMap<>();
@@ -32,13 +34,13 @@ public class PersistenciaFirebase {
 
     public void excluirBonecosFirebase(Bonecos bonecosExcluir) {
         String key = bonecosExcluir.getChave();
-        dbBonecos = FirebaseDatabase.getInstance().getReference("baseBonecos").child(key);
+        dbBonecos = FirebaseDatabase.getInstance().getReference(TABELA_FIREBASE).child(key);
         dbBonecos.removeValue();
     }
 
     public String salvarBonecosFirebase(Bonecos bonecosInserir) {
 
-        dbBonecos = FirebaseDatabase.getInstance().getReference("baseBonecos");
+        dbBonecos = FirebaseDatabase.getInstance().getReference(TABELA_FIREBASE);
         String id = dbBonecos.push().getKey();
         if (id == null) throw new AssertionError();
         bonecosInserir.setChave(id); // add a chave do registro
