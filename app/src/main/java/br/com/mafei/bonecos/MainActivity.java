@@ -60,12 +60,10 @@ public class MainActivity extends AppCompatActivity {
         listaColecao.setAdapter(adapter);
 
         // Click rapido para alterar
-        adapter.setOnItemClickListener((bonecos) -> {
-            alterarBonecos(bonecos);
-        });
+        adapter.setOnItemClickListener(this::alterarBonecos);
 
         // Click longo para excluir
-        adapter.setOnItemLongClickListener((bonecos) -> removerBonecos(bonecos));
+        adapter.setOnItemLongClickListener(this::removerBonecos);
 
     }
 
@@ -74,14 +72,12 @@ public class MainActivity extends AppCompatActivity {
                 .Builder(this)
                 .setTitle("Remover Boneco")
                 .setMessage("Deseja remover este boneco?")
-                .setPositiveButton("Sim", (dialog, which) -> {
-                    remover(bonecosRemover);
-                })
+                .setPositiveButton("Sim", (dialog, which) -> remover(bonecosRemover))
                 .setNegativeButton("Não", null)
                 .show();
     }
 
-    public void remover(Bonecos bonecos) {
+    private void remover(Bonecos bonecos) {
         bonecosDAO.remover(bonecos);
         firebase.excluirBonecosFirebase(bonecos);
         atualizarBonecos();
