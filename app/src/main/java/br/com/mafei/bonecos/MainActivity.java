@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void mostrarLista() {
         RecyclerView listaColecao = findViewById(R.id.listaColecao);
+        listaColecao.setHasFixedSize(true); // informando que o recyclerview tera tamanho fixo para todos
         configurarAdapter(listaColecao);
         registerForContextMenu(listaColecao);
     }

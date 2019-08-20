@@ -15,12 +15,10 @@ public class PersistenciaFirebase {
     private DatabaseReference dbBonecos;
 
     public void alterarFirebase(Bonecos bonecosEditar) {
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference();
         DatabaseReference usersRef = ref.child(TABELA_FIREBASE);
-        String vChave = bonecosEditar.getChave();
-        DatabaseReference hopperRef = usersRef.child(vChave);
+        DatabaseReference hopperRef = usersRef.child(bonecosEditar.getChave());
         Map<String , Object> hopperUpdates = new HashMap<>();
         hopperUpdates.put("nomeBoneco", bonecosEditar.getNomeBoneco());
         hopperUpdates.put("nomeFilme", bonecosEditar.getNomeFilme());
@@ -29,7 +27,6 @@ public class PersistenciaFirebase {
         hopperUpdates.put("chave", bonecosEditar.getChave());
         hopperUpdates.put("codigo", bonecosEditar.getCodigo());
         hopperRef.updateChildren(hopperUpdates);
-
     }
 
     public void excluirBonecosFirebase(Bonecos bonecosExcluir) {
@@ -39,7 +36,6 @@ public class PersistenciaFirebase {
     }
 
     public String salvarBonecosFirebase(Bonecos bonecosInserir) {
-
         dbBonecos = FirebaseDatabase.getInstance().getReference(TABELA_FIREBASE);
         String id = dbBonecos.push().getKey();
         if (id == null) throw new AssertionError();
