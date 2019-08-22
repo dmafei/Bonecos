@@ -44,4 +44,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-jackson:2.6.1'
     implementation 'com.google.firebase:firebase-database:18.0.1'
     implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.firebase:firebase-perf:18.0.1'
+
 }
