@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -203,9 +201,5 @@ public class cadastro extends AppCompatActivity {
         bonecos.setNomeFilme(txtFilme.getText().toString());
 
         //bonecos.setFoto(imgFoto);
-    }
-
-    private void onClick(View v) {
-        tirarFoto();
     }
 }
