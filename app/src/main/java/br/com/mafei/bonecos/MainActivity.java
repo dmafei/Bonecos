@@ -25,8 +25,8 @@ import static br.com.mafei.constantes.constantes.tituloBar;
 public class MainActivity extends AppCompatActivity {
 
     private Room_BonecosDAO bonecosDAO;
-    private PersistenciaFirebase firebase;
     private lista_adapter_recycler adapter;
+    private PersistenciaFirebase firebase;
 
     // Classe para unica execucao precisa extender Application
 
@@ -39,13 +39,16 @@ public class MainActivity extends AppCompatActivity {
         mostrarLista();
         FloatingActionButton botaoInserir = findViewById(R.id.botaoInserir);
         botaoInserir(botaoInserir);
+        configurarFirebase();
+    }
+
+    private void configurarFirebase() {
+        firebase = new PersistenciaFirebase();
     }
 
     private void configurarDatabase() {
         BonecosDatabase database = BonecosDatabase.getInstance(this);
         bonecosDAO = database.getRoomBonecosDAO();
-
-        firebase = new PersistenciaFirebase();
     }
 
     private void mostrarLista() {
@@ -56,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configurarAdapter(RecyclerView listaColecao) {
-
         adapter = new lista_adapter_recycler(this, bonecosDAO.todos());
         listaColecao.setAdapter(adapter);
 

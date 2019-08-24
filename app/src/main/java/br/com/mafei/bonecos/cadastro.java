@@ -54,7 +54,7 @@ public class cadastro extends AppCompatActivity {
         BonecosDatabase database = BonecosDatabase.getInstance(this);
         bonecosDAO = database.getRoomBonecosDAO();
 
-         firebase = new PersistenciaFirebase();
+        firebase = new PersistenciaFirebase();
 
         atribuiComponentes();
         extrairParametrosIntent();
@@ -141,13 +141,11 @@ public class cadastro extends AppCompatActivity {
 
     private boolean camposObrigatorio() {
 
-        if ((txtNome.getText().toString().isEmpty()) || (txtFilme.getText().toString().isEmpty()) || (txtModelo.getText().toString().isEmpty()))
-        {
+        if ((txtNome.getText().toString().isEmpty()) || (txtFilme.getText().toString().isEmpty()) || (txtModelo.getText().toString().isEmpty())) {
             Toast.makeText(cadastro.this, "Campo Obrigatório", Toast.LENGTH_SHORT).show();
             return false;
 
-        }
-        else {
+        } else {
             return true;
         }
 
@@ -176,10 +174,7 @@ public class cadastro extends AppCompatActivity {
         txtNome.setText(bonecos.getNomeBoneco());
         txtModelo.setText(bonecos.getNomeModelo());
         txtFilme.setText(bonecos.getNomeFilme());
-
         selecionarMarcas();
-
-        //imgFoto.setImageBitmap(bonecos.getFoto());
     }
 
     // laço para verificar o registro do banco e identificar qual posicao esta no spinner
@@ -199,7 +194,5 @@ public class cadastro extends AppCompatActivity {
         bonecos.setNomeMarca(comboMarca.getSelectedItem().toString());
         bonecos.setNomeModelo(txtModelo.getText().toString());
         bonecos.setNomeFilme(txtFilme.getText().toString());
-
-        //bonecos.setFoto(imgFoto);
     }
 }

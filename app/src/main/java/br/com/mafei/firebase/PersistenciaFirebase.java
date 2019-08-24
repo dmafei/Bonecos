@@ -19,7 +19,7 @@ public class PersistenciaFirebase {
         DatabaseReference ref = database.getReference();
         DatabaseReference usersRef = ref.child(TABELA_FIREBASE);
         DatabaseReference hopperRef = usersRef.child(bonecosEditar.getChave());
-        Map<String , Object> hopperUpdates = new HashMap<>();
+        Map<String, Object> hopperUpdates = new HashMap<>();
         hopperUpdates.put("nomeBoneco", bonecosEditar.getNomeBoneco());
         hopperUpdates.put("nomeFilme", bonecosEditar.getNomeFilme());
         hopperUpdates.put("nomeMarca", bonecosEditar.getNomeMarca());
@@ -43,5 +43,4 @@ public class PersistenciaFirebase {
         dbBonecos.child(id).setValue(bonecosInserir);
         return id;
     }
-
 }
