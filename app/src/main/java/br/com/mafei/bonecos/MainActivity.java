@@ -3,12 +3,13 @@ package br.com.mafei.bonecos;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Room_BonecosDAO bonecosDAO;
     private lista_adapter_recycler adapter;
     private PersistenciaFirebase firebase;
+    private SwipeRefreshLayout swiper;
 
     // Classe para unica execucao precisa extender Application
 
@@ -50,33 +52,49 @@ public class MainActivity extends AppCompatActivity {
         mostrarLista();
         FloatingActionButton botaoInserir = findViewById(R.id.botaoInserir);
         botaoInserir(botaoInserir);
+
+        swiper = findViewById(R.id.swiper_listaColecao);
+        swiper.setOnRefreshListener(this::atualizarListaFirebase);
+    }
+
+    private void atualizarListaFirebase() {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        valueEventListener(ref);
+    }
+
+    private void valueEventListener(DatabaseReference ref) {
+        ref.child(TABELA_FIREBASE).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot single : dataSnapshot.getChildren()) {
+                    existeDatasnapshot(single);
+                }
+
+                atualizarBonecos(); // chamada novamente para atualizar os dados vindos do Firebase
+                swiper.setRefreshing(false);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void configurarFirebase() {
         firebase = new PersistenciaFirebase();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        listenerForSingleValueEvent(ref);
+    }
 
+    private void listenerForSingleValueEvent(DatabaseReference ref) {
         ref.child(TABELA_FIREBASE).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot single : dataSnapshot.getChildren()) {
-                    if (single.exists()) {
-                        Bonecos bonecosFirebase = single.getValue(Bonecos.class);
-                        assert bonecosFirebase != null;
-                        List<Bonecos> existeBoneco = bonecosDAO.findBychave(bonecosFirebase.getChave());
-
-                        if (existeBoneco.size() > 0) {
-                            // boneco encontrado no SQLite entao sera atualizado
-                            bonecosDAO.alterar(bonecosFirebase);
-                        }else {
-                            // nao encontrou o boneco no SQLite entao sera inserido
-                            bonecosDAO.salvar(bonecosFirebase);
-                        }
-
-                    } else {
-                        Log.i("MeuLOG", "erro na captura");
-                    }
+                    existeDatasnapshot(single);
                 }
                 atualizarBonecos(); // chamada novamente para atualizar os dados vindos do Firebase
             }
@@ -86,6 +104,27 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void existeDatasnapshot(DataSnapshot single) {
+        if (single.exists()) {
+            Bonecos bonecosFirebase = single.getValue(Bonecos.class);
+            assert bonecosFirebase != null;
+            List<Bonecos> existeBoneco = bonecosDAO.findBychave(bonecosFirebase.getChave());
+            existeBonecos(bonecosFirebase, existeBoneco);
+        } else {
+            Toast.makeText(MainActivity.this, "Não foi possível conectar no servidor", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void existeBonecos(Bonecos bonecosFirebase, List<Bonecos> existeBoneco) {
+        if (existeBoneco.size() > 0) {
+            // boneco encontrado no SQLite entao sera atualizado
+            bonecosDAO.alterar(bonecosFirebase);
+        } else {
+            // nao encontrou o boneco no SQLite entao sera inserido
+            bonecosDAO.salvar(bonecosFirebase);
+        }
     }
 
     private void configurarDatabase() {
