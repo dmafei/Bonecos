@@ -3,12 +3,21 @@ package br.com.mafei.bonecos;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 import br.com.mafei.adapter.lista_adapter_recycler;
 import br.com.mafei.dao.Room_BonecosDAO;
@@ -16,6 +25,7 @@ import br.com.mafei.database.BonecosDatabase;
 import br.com.mafei.firebase.PersistenciaFirebase;
 import br.com.mafei.modelo.Bonecos;
 
+import static br.com.mafei.constantes.constantes.TABELA_FIREBASE;
 import static br.com.mafei.constantes.constantes.chaveAcao;
 import static br.com.mafei.constantes.constantes.chaveBoneco;
 import static br.com.mafei.constantes.constantes.cst_editar;
@@ -34,16 +44,48 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        configurarFirebase();
         configurarDatabase();
         setTitle(tituloBar);
         mostrarLista();
         FloatingActionButton botaoInserir = findViewById(R.id.botaoInserir);
         botaoInserir(botaoInserir);
-        configurarFirebase();
     }
 
     private void configurarFirebase() {
         firebase = new PersistenciaFirebase();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+
+        ref.child(TABELA_FIREBASE).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot single : dataSnapshot.getChildren()) {
+                    if (single.exists()) {
+                        Bonecos bonecosFirebase = single.getValue(Bonecos.class);
+                        assert bonecosFirebase != null;
+                        List<Bonecos> existeBoneco = bonecosDAO.findBychave(bonecosFirebase.getChave());
+
+                        if (existeBoneco.size() > 0) {
+                            // boneco encontrado no SQLite entao sera atualizado
+                            bonecosDAO.alterar(bonecosFirebase);
+                        }else {
+                            // nao encontrou o boneco no SQLite entao sera inserido
+                            bonecosDAO.salvar(bonecosFirebase);
+                        }
+
+                    } else {
+                        Log.i("MeuLOG", "erro na captura");
+                    }
+                }
+                atualizarBonecos(); // chamada novamente para atualizar os dados vindos do Firebase
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void configurarDatabase() {

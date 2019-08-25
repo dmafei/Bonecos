@@ -25,4 +25,7 @@ public interface Room_BonecosDAO {
     @Query("Select * from bonecos")
     List<Bonecos> todos();
 
+    @Query("SELECT * FROM bonecos WHERE chave = :v_chave")
+    List<Bonecos> findBychave(String v_chave);
+
 }
