@@ -14,6 +14,12 @@
     <string name="hint_Nome">Nome</string>
     <string name="hint_Modelo">Modelo</string>
 
+    <!--dados do cardview-->
+    <string name="nomeBoneco">Homem Aranha</string>
+    <string name="nomeMarca">Marvel</string>
+    <string name="nomeFilme">Aranhaverso</string>
+
+
     <!--Combobox para listagem das marcas-->
     <string-array name="listarMarca">
         <item>Marvel</item>
