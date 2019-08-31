@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
+    android:layout_margin="1dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:focusable="true">
@@ -22,7 +22,6 @@
             android:layout_marginStart="5dp"
             android:orientation="horizontal">
 
-            <!--suppress AndroidUnknownAttribute -->
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ListaFotos"
                 iconHolder1.clipToOutline="true"

@@ -16,31 +16,28 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listaColecao"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_bonecos"
-            />
+            tools:listitem="@layout/item_bonecos" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botaoInserir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:fabSize="normal"
-        android:id="@+id/botaoInserir"
+        android:backgroundTint="@color/colorPrimary"
         android:clickable="true"
         android:focusable="true"
-        android:backgroundTint="@color/colorPrimary"
         android:src="@drawable/img_btn_inserir"
+        app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="@+id/swiper_listaColecao"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/swiper_listaColecao" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

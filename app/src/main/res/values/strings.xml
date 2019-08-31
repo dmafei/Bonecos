@@ -19,7 +19,6 @@
     <string name="nomeMarca">Marvel</string>
     <string name="nomeFilme">Aranhaverso</string>
 
-
     <!--Combobox para listagem das marcas-->
     <string-array name="listarMarca">
         <item>Marvel</item>
