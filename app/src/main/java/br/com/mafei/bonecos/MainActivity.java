@@ -3,6 +3,7 @@ package br.com.mafei.bonecos;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import static br.com.mafei.constantes.constantes.chaveBoneco;
 import static br.com.mafei.constantes.constantes.cst_editar;
 import static br.com.mafei.constantes.constantes.cst_inserir;
 import static br.com.mafei.constantes.constantes.tituloBar;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -77,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                String msgErro = databaseError.getMessage();
+                Toast.makeText(MainActivity.this, msgErro, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -101,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                String msgErro = databaseError.getMessage();
+                Toast.makeText(MainActivity.this, msgErro, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -119,10 +123,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void existeBonecos(Bonecos bonecosFirebase, List<Bonecos> existeBoneco) {
         if (existeBoneco.size() > 0) {
-            // boneco encontrado no SQLite entao sera atualizado
             bonecosDAO.alterar(bonecosFirebase);
         } else {
-            // nao encontrou o boneco no SQLite entao sera inserido
             bonecosDAO.salvar(bonecosFirebase);
         }
     }
