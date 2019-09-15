@@ -2,6 +2,8 @@ package br.com.mafei.firebase;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,5 +44,11 @@ public class PersistenciaFirebase {
         bonecosInserir.setChave(id); // add a chave do registro
         dbBonecos.child(id).setValue(bonecosInserir);
         return id;
+    }
+
+    public void salvarImagens(){
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
     }
 }

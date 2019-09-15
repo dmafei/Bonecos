@@ -6,15 +6,15 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
@@ -22,7 +22,6 @@ import br.com.mafei.dao.Room_BonecosDAO;
 import br.com.mafei.database.BonecosDatabase;
 import br.com.mafei.firebase.PersistenciaFirebase;
 import br.com.mafei.modelo.Bonecos;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static br.com.mafei.constantes.constantes.chaveAcao;
 import static br.com.mafei.constantes.constantes.chaveBoneco;
@@ -40,10 +39,15 @@ public class cadastro extends AppCompatActivity {
     private String acao;
 
     // campos da tabela
+    private TextInputLayout txtNomeCampo;
+    private TextInputLayout txtModeloCampo;
+    private TextInputLayout txtFilmeCampo;
+
     private EditText txtNome;
-    private Spinner comboMarca;
     private EditText txtModelo;
     private EditText txtFilme;
+
+    private Spinner comboMarca;
     private ImageButton imgFoto;
 
     @Override
@@ -124,7 +128,6 @@ public class cadastro extends AppCompatActivity {
             }
             finish();
         }
-        txtNome.setFocusable(true);
     }
 
     private void salvarBonecos(Bonecos bonecos) {
@@ -141,28 +144,45 @@ public class cadastro extends AppCompatActivity {
 
     private boolean camposObrigatorio() {
 
-        if ((txtNome.getText().toString().isEmpty()) || (txtFilme.getText().toString().isEmpty()) || (txtModelo.getText().toString().isEmpty())) {
-            Toast.makeText(cadastro.this, "Campo Obrigatório", Toast.LENGTH_SHORT).show();
+        if (txtNome.getText().toString().isEmpty()){
+            txtNomeCampo.setError("Campo Obrigatório");
+            txtNomeCampo.setFocusable(true);
             return false;
-
         } else {
-            return true;
+            txtNomeCampo.setError(null);
+            txtNomeCampo.setErrorEnabled(false);
         }
-
+        if (txtModelo.getText().toString().isEmpty()){
+            txtModeloCampo.setError("Campo Obrigatório");
+            txtModeloCampo.setFocusable(true);
+            return false;
+        } else {
+            txtModeloCampo.setError(null);
+            txtModeloCampo.setErrorEnabled(false);
+        }
+        if (txtFilme.getText().toString().isEmpty()){
+            txtFilmeCampo.setError("Campo Obrigatório");
+            txtFilmeCampo.setFocusable(true);
+            return false;
+        } else {
+            txtFilmeCampo.setError(null);
+            txtFilmeCampo.setErrorEnabled(false);
+        }
+        return true;
     }
 
     private void atribuiComponentes() {
 
-        txtNome = findViewById(R.id.Nome);
+        txtNomeCampo = findViewById(R.id.Nome);
         comboMarca = findViewById(R.id.comboMarca);
-        txtModelo = findViewById(R.id.Modelo);
-        txtFilme = findViewById(R.id.Filme);
+        txtModeloCampo = findViewById(R.id.Modelo);
+        txtFilmeCampo = findViewById(R.id.Filme);
         imgFoto = findViewById(R.id.imgFoto);
-
-
         // Retornar as marcas no Spinner (comboBox)
         retornarMarcas();
-
+        txtNome = txtNomeCampo.getEditText();
+        txtModelo = txtModeloCampo.getEditText();
+        txtFilme = txtFilmeCampo.getEditText();
     }
 
     private void retornarMarcas() {

@@ -3,7 +3,6 @@ package br.com.mafei.bonecos;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void atualizarListaFirebase() {
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         valueEventListener(ref);
     }
@@ -81,12 +79,14 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 String msgErro = databaseError.getMessage();
                 Toast.makeText(MainActivity.this, msgErro, Toast.LENGTH_SHORT).show();
+                swiper.setRefreshing(false);
             }
         });
     }
 
     private void configurarFirebase() {
         firebase = new PersistenciaFirebase();
+        // persistencia de dados
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         listenerForSingleValueEvent(ref);
     }
@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         ref.child(TABELA_FIREBASE).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 for (DataSnapshot single : dataSnapshot.getChildren()) {
                     existeDatasnapshot(single);
                 }
