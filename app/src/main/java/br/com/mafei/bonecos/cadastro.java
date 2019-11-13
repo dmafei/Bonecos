@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -65,6 +66,24 @@ public class cadastro extends AppCompatActivity {
         extrairParametrosIntent();
 
         imgFoto.setOnClickListener(v -> tirarFoto());
+
+        txtNome.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                verificarCampo(txtNome, txtNomeCampo);
+            }
+        });
+
+        txtFilme.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                verificarCampo(txtFilme, txtFilmeCampo);
+            }
+        });
+
+        txtModelo.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                verificarCampo(txtModelo, txtModeloCampo);
+            }
+        });
 
     }
 
@@ -144,31 +163,23 @@ public class cadastro extends AppCompatActivity {
 
     private boolean camposObrigatorio() {
 
-        if (txtNome.getText().toString().isEmpty()){
-            txtNomeCampo.setError("Campo Obrigatório");
-            txtNomeCampo.setFocusable(true);
-            return false;
-        } else {
-            txtNomeCampo.setError(null);
-            txtNomeCampo.setErrorEnabled(false);
-        }
-        if (txtModelo.getText().toString().isEmpty()){
-            txtModeloCampo.setError("Campo Obrigatório");
-            txtModeloCampo.setFocusable(true);
-            return false;
-        } else {
-            txtModeloCampo.setError(null);
-            txtModeloCampo.setErrorEnabled(false);
-        }
-        if (txtFilme.getText().toString().isEmpty()){
-            txtFilmeCampo.setError("Campo Obrigatório");
-            txtFilmeCampo.setFocusable(true);
-            return false;
-        } else {
-            txtFilmeCampo.setError(null);
-            txtFilmeCampo.setErrorEnabled(false);
-        }
+        if (verificarCampo(txtNome, txtNomeCampo)) return false;
+        if (verificarCampo(txtModelo, txtModeloCampo)) return false;
+        if (verificarCampo(txtFilme, txtFilmeCampo)) return false;
+
         return true;
+    }
+
+    private boolean verificarCampo(EditText editText, TextInputLayout txtCampo) {
+        if (editText.getText().toString().isEmpty()) {
+            txtCampo.setError("Campo Obrigatório");
+            txtCampo.requestFocus();
+            return true;
+        } else {
+            txtCampo.setError(null);
+            txtCampo.setErrorEnabled(false);
+        }
+        return false;
     }
 
     private void atribuiComponentes() {
@@ -180,6 +191,8 @@ public class cadastro extends AppCompatActivity {
         imgFoto = findViewById(R.id.imgFoto);
         // Retornar as marcas no Spinner (comboBox)
         retornarMarcas();
+
+        // atribuir os TextInputLayout para os EditText
         txtNome = txtNomeCampo.getEditText();
         txtModelo = txtModeloCampo.getEditText();
         txtFilme = txtFilmeCampo.getEditText();
