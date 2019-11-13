@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -165,9 +164,7 @@ public class cadastro extends AppCompatActivity {
 
         if (verificarCampo(txtNome, txtNomeCampo)) return false;
         if (verificarCampo(txtModelo, txtModeloCampo)) return false;
-        if (verificarCampo(txtFilme, txtFilmeCampo)) return false;
-
-        return true;
+        return !verificarCampo(txtFilme, txtFilmeCampo);
     }
 
     private boolean verificarCampo(EditText editText, TextInputLayout txtCampo) {
