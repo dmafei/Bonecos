@@ -45,10 +45,4 @@ public class PersistenciaFirebase {
         dbBonecos.child(id).setValue(bonecosInserir);
         return id;
     }
-
-    public void salvarImagens(){
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-
-    }
 }
